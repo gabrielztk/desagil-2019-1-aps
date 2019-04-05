@@ -19,7 +19,7 @@ public class GateView extends JPanel implements ActionListener {
     private final Gate gate;
 
     // A classe JTextField representa um campo de texto.
-    private final JTextField resultField;
+    private final JCheckBox resultBox;
     private final JCheckBox[] listaBoxes;
     private final int[] listaPinos;
     private final Switch[] listaSwitchs;
@@ -28,17 +28,18 @@ public class GateView extends JPanel implements ActionListener {
     public GateView(Gate gate) {
         this.gate = gate;
 
-        JLabel resultLabel = new JLabel("Result");
-        resultField = new JTextField();
+        JLabel inputLabel = new JLabel("Input");
+        JLabel resultLabel = new JLabel("Output");
+        resultBox = new JCheckBox();
         listaBoxes = new JCheckBox[this.gate.getInputSize()];
         listaPinos = new int[this.gate.getInputSize()];
         listaSwitchs = new Switch[this.gate.getInputSize()];
 
-
+        add(inputLabel);
         // Nada de especial na construção dos campos.
-        for (int x = 0; x < this.gate.getInputSize(); x++){
+        for (int x = 0; x < this.gate.getInputSize(); x++) {
 
-            listaBoxes[x] = new JCheckBox("Input: " + x);
+            listaBoxes[x] = new JCheckBox();
             listaSwitchs[x] = new Switch();
             listaPinos[x] = x;
             gate.connect(x, listaSwitchs[x]);
@@ -57,7 +58,6 @@ public class GateView extends JPanel implements ActionListener {
         // mexer nesses objetos depois de criar e adicionar.
 
 
-
         // Um JPanel tem um layout, ou seja, um padrão para
         // organizar as componentes dentro dele. A linha abaixo
         // estabelece um dos padrões mais simples: simplesmente
@@ -68,8 +68,8 @@ public class GateView extends JPanel implements ActionListener {
 
 
         add(resultLabel);
-        add(resultField);
-        resultField.setEnabled(false);
+        add(resultBox);
+        resultBox.setEnabled(false);
 
         // Uma campo de texto tem uma lista de observadores que
         // reagem quando o usuário dá Enter depois de digitar.
@@ -95,19 +95,18 @@ public class GateView extends JPanel implements ActionListener {
         boolean verdade;
 
 
-        for(int numero: listaPinos){
+        for (int numero : listaPinos) {
 
             verdade = listaBoxes[numero].isSelected();
 
-            if (verdade){
+            if (verdade) {
                 listaSwitchs[numero].turnOn();
-            }else{
+            } else {
                 listaSwitchs[numero].turnOff();
             }
 
         }
-        resultField.setText(Boolean.toString(gate.read()));
-
+        resultBox.setSelected(gate.read());
 
 
         //double result = calculator.calculate(weight, radius);
