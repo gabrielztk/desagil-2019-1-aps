@@ -33,7 +33,7 @@ public class HalfAdder extends Gate {
     public boolean read(int outputPin) {
         if (outputPin == 0) {
             return nandSum.read();
-        }else{
+        } else {
             return nandCarry.read();
         }
 
